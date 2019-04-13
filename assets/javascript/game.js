@@ -16,9 +16,8 @@ class User extends Character {
         super(character);
         this.currentAttackPower = character[4];
         this.baseAttackPower = character[5];
-        this.attackEvent = function () {
-
-        }
+    }
+    attackEvent = function () {
     }
 };
 
@@ -31,66 +30,99 @@ class Opponent extends Character {
 
 class Game {
     constructor() {
-        this.gameActive = false;
         this.playerUser = {};
         this.playersComputer = [];
-
-        this.startGame = function() {
-            this.playerUser = this.selectAvatar();
-            this.playersComputer = this.generateOpponents();
-            // this.selectOpponent();
-            this.gameActive = true;
-
-            // while (gameState = true) {
-            //     //wait here for clickevents to drive the game
-            //     $('#attack-button').on('click', function() {
-            //         this.updateBoard();
-            //     if (this.playerUser.healthPoints <= 0 || this.playersComputer.healthPoints <= 0) {
-            //         gameState = false;
-            //     }
-            //     })
-            // }
-        };
-
-        this.generateOpponents = function() {
-            //returns array of objects holding the three opponents drawn from the potential players array
-            let opponentsArray = [characterArray[1], characterArray[2], characterArray[3]];
-            return opponentsArray;
-        };
-
-        // this.updateBoard = function() {
-
-        // };
-
-        // this.endGame = function(result) {
-        //     if (result) {
-        //         //display win msg
-        //     } else {
-        //         //display loss msg
-        //     };
-        //     //display a win/loss message
-        //     //reset game counters and players
-        //     //prompt to press [ENTER] to this.startGame();
-        // };
-
-        // this.selectOpponent = function () {
-        //     //prompt user to select an enemy
-        //     //listen for a click
-        //     // this.updateBoard();
-        //     return opponentObject;
-
-        // };
-
-        this.selectAvatar = function() {
-            // returns a single object that is the users character choice
-            // this.updateBoard();
-            return characterArray[0];
-        };
+        this.currentOpponent = {};
     }
+    startGame = function () {
+        console.log('new game');
+        newGame.selectOpponent(true);
+        this.playerUser = this.selectAvatar();
+        console.table(this.playerUser);
+        this.playersComputer = this.generateOpponents();
+        console.table(this.playersComputer);
+        newGame.selectOpponent(true);
+    };
+    generateOpponents = function () {
+        //returns array of objects holding the three opponents drawn from the potential players array
+        let opponentsArray = [characterArray[1], characterArray[2], characterArray[3]];
+        $('#opponent-one').text(opponentsArray[0][0]);
+        $('#opponent-two').text(opponentsArray[1][0]);
+        $('#opponent-three').text(opponentsArray[2][0]);
+        return opponentsArray;
+    }
+    selectAvatar = function () {
+        this.selectOpponent()
+        return characterArray[0];
+    }
+    selectOpponent = function (value) {
+        //lets maybe do this with a .toggleClass()
+        if (value === true) {
+            $('#start-button').attr('disabled', true);
+            $('#quit-button').attr('disabled', true);
+            $('#attack-button').attr('disabled', true);
+            $('#opponent-one').attr('enabled');
+            $('#opponent-two').attr('enabeled');
+            $('#opponent-three').attr('enabled');
+        } else if (value === false) {
+            $('#start-button').attr('enabled');
+            $('#quit-button').attr('enabled');
+            $('#attack-button').attr('enabled');
+            $('#opponent-one').attr('disabled', 'disabled');
+            $('#opponent-two').attr('disabled', 'disabled');
+            $('#opponent-three').attr('disabled', 'disabled');
+        }
+    }
+
+    updateBoard = function () {
+
+    }
+    endGame = function (result) {
+        // if (result) {
+        //     //display win msg
+        // } else {
+        //     //display loss msg
+        // };
+        //display a win/loss message
+        //reset game counters and players
+        //prompt to press [ENTER] to this.startGame();
+    };
 };
 
 let newGame = new Game();
-newGame.startGame();
+newGame.selectOpponent(false);
+$('#start-button').on('click', function () {
+    // $('#start-button').attr('disabled', 'disabled');
+   
+    console.log('start!');
+    newGame.startGame();
+});
+
+$('#attack-button').on('click', function () {
+    console.log('attack event!');
+});
+
+$('#opponent-one').on('click', function () {
+    console.log('Marge!');
+    let marge = new Opponent(characterArray[1]);
+    console.table(marge);
+    newGame.currentOpponent = marge;
+    newGame.selectOpponent(false);
+});
+$('#opponent-two').on('click', function () {
+    console.log('Marge!');
+    let lisa = new Opponent(characterArray[2]);
+    console.table(lisa);
+    newGame.currentOpponent = lisa;
+    newGame.selectOpponent(false);
+});
+$('#opponent-three').on('click', function () {
+    console.log('Marge!');
+    let bart = new Opponent(characterArray[3]);
+    console.table(bart);
+    newGame.currentOpponent = bart;
+    newGame.selectOpponent(false);
+});
 
 
 
