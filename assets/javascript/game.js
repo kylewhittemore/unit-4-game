@@ -18,6 +18,10 @@ class User extends Character {
         this.baseAttackPower = character[5];
     }
     attackEvent = function () {
+        //attacks opponent reducing opponent hp
+        //raises users hp by baseAttackPower
+        //puts counter-attack on user
+        
     }
 };
 
@@ -28,74 +32,61 @@ class Opponent extends Character {
     }
 };
 
-class Game {
-    constructor() {
+const game = {
+        playerUser: {},
+        playersComputer: [],
+        currentOpponent: {},
+
+    startGame: function () {
         this.playerUser = {};
         this.playersComputer = [];
         this.currentOpponent = {};
-    }
-    startGame = function () {
-        console.log('new game');
-        newGame.selectOpponent(true);
+        this.toggleButtons(true);
         this.playerUser = this.selectAvatar();
-        console.table(this.playerUser);
         this.playersComputer = this.generateOpponents();
-        console.table(this.playersComputer);
-        newGame.selectOpponent(true);
-    };
-    generateOpponents = function () {
-        //returns array of objects holding the three opponents drawn from the potential players array
-        let opponentsArray = [characterArray[1], characterArray[2], characterArray[3]];
+        this.toggleButtons(true);
+    },
+
+    generateOpponents: function () {
+        // for loop to push 3 characters[random]
+        
+        let opponentsArray = [ characterArray[0], characterArray[1], characterArray[2], characterArray[3]];
         $('#opponent-one').text(opponentsArray[0][0]);
         $('#opponent-two').text(opponentsArray[1][0]);
         $('#opponent-three').text(opponentsArray[2][0]);
+        $('#opponent-four').text(opponentsArray[3][0]);
         return opponentsArray;
-    }
-    selectAvatar = function () {
-        this.selectOpponent()
+    },
+    selectAvatar: function () {
+        this.toggleButtons()
         return characterArray[0];
-    }
-    selectOpponent = function (value) {
-        //lets maybe do this with a .toggleClass()
+    },
+    selectOpponent: function (value) {
+
+    },
+
+    toggleButtons: function (value) {
         if (value === true) {
-            $('#start-button').attr('disabled', true);
-            $('#quit-button').attr('disabled', true);
-            $('#attack-button').attr('disabled', true);
-            $('#opponent-one').attr('enabled');
-            $('#opponent-two').attr('enabeled');
-            $('#opponent-three').attr('enabled');
+            $('.action-button').prop('disabled', true);
+            $('.opponent-button').prop('disabled', false);
         } else if (value === false) {
-            $('#start-button').attr('enabled');
-            $('#quit-button').attr('enabled');
-            $('#attack-button').attr('enabled');
-            $('#opponent-one').attr('disabled', 'disabled');
-            $('#opponent-two').attr('disabled', 'disabled');
-            $('#opponent-three').attr('disabled', 'disabled');
+            $('.action-button').prop('disabled', false);
+            $('.opponent-button').prop('disabled', true);
         }
-    }
+    },
 
-    updateBoard = function () {
+    updateBoard: function () {
 
+    },
+    endGame: function (result) {
     }
-    endGame = function (result) {
-        // if (result) {
-        //     //display win msg
-        // } else {
-        //     //display loss msg
-        // };
-        //display a win/loss message
-        //reset game counters and players
-        //prompt to press [ENTER] to this.startGame();
-    };
 };
 
-let newGame = new Game();
-newGame.selectOpponent(false);
+// let newGame = new Game();
+// newGame.toggleButtons(false);
 $('#start-button').on('click', function () {
-    // $('#start-button').attr('disabled', 'disabled');
-   
     console.log('start!');
-    newGame.startGame();
+    game.startGame();
 });
 
 $('#attack-button').on('click', function () {
@@ -103,25 +94,23 @@ $('#attack-button').on('click', function () {
 });
 
 $('#opponent-one').on('click', function () {
-    console.log('Marge!');
-    let marge = new Opponent(characterArray[1]);
-    console.table(marge);
-    newGame.currentOpponent = marge;
-    newGame.selectOpponent(false);
+    if (game.playerUser) {
+    }
+    game.currentOpponent = game.playersComputer[0];
+    console.table(game.currentOpponent);
+    game.toggleButtons(false);
 });
+
 $('#opponent-two').on('click', function () {
-    console.log('Marge!');
-    let lisa = new Opponent(characterArray[2]);
-    console.table(lisa);
-    newGame.currentOpponent = lisa;
-    newGame.selectOpponent(false);
+    game.currentOpponent = game.playersComputer[1];
+    console.table(game.currentOpponent);
+    game.toggleButtons(false);
 });
+
 $('#opponent-three').on('click', function () {
-    console.log('Marge!');
-    let bart = new Opponent(characterArray[3]);
-    console.table(bart);
-    newGame.currentOpponent = bart;
-    newGame.selectOpponent(false);
+    game.currentOpponent = game.playersComputer[2];
+    console.table(game.currentOpponent);
+    game.toggleButtons(false);
 });
 
 
