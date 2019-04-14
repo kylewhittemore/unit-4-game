@@ -16,7 +16,7 @@ const game = {
     isActive: false,
     userCharacter: {},
     randomThreeOpponents: [],
-    activeOpponent: {},
+    activeOpponent: false,
 
     // I think that handlebars could be useful here
     //having a seperate function for each card seems redundant
@@ -50,11 +50,13 @@ const game = {
         // $('#battle-user-image').attr('src', characterObject.image);
         $('#battle-user-name').text(characterObject.name);
         $('#battle-user-HP').text(characterObject.healthPoints);
+        $('#battle-user-attack').text(characterObject.currentAttackPower)
     },
     updateBattleOpponentCard: function (characterObject) {
         // $('#battle-opponent-image').attr('src', characterObject.image);
         $('#battle-opponent-name').text(characterObject.name);
         $('#battle-opponent-HP').text(characterObject.healthPoints);
+        $('#battle-opponent-counter').text(characterObject.counterPower)
     },
 
     selectUserCharacter: function (characterObject) {
@@ -77,12 +79,24 @@ const game = {
     },
 
     battleEvent: function () {
-        //lower opponent HP by userCharacter currentAttackPower
-        //lower userCharacter HP by counterAttackPower
-        //increase userCharacter currentAttackPower by baseAttackPower
-        //check if either character HP <= 0
-        //if so call this.removeCharacter()
+
         //update the text in the battle cards
+        this.activeOpponent.healthPoints -= this.userCharacter.currentAttackPower;
+        //check for defeat here :)
+        this.userCharacter.healthPoints -= this.activeOpponent.counterPower;
+        if (this.userCharacter.healthPoints <= 0) {
+            
+            //put loss logic here
+            alert('you lose');
+        } else if (this.activeOpponent.healthPoints <= 0) {
+            
+            //put win logic here
+            alert('you won');
+        } else {
+            this.userCharacter.currentAttackPower += this.userCharacter.baseAttackPower;
+            this.updateBattleOpponentCard(this.activeOpponent);
+            this.updateBattleUserCard(this.userCharacter);
+        }
     },
 
     removeCharacter: function () {
@@ -92,12 +106,13 @@ const game = {
     },
 
     selectOpponent: function (characterObject) {
-        //moves the selected opponentCard to the battle area
-        //sets this.activeOpponenet to opponentClicked
-        //sets this.gameActive to true
-        this.activeOpponent = characterObject;
-        this.updateBattleOpponentCard(this.activeOpponent);
+        if (this.activeOpponent === false) {
+            this.activeOpponent = characterObject;
+            console.table(this.activeOpponent);
+            this.updateBattleOpponentCard(this.activeOpponent);
+            $('.character-button').attr('disabled', true);
 
+        }
     }
 };
 
@@ -111,12 +126,23 @@ $(document).ready(function () {
     game.updateCharacterThreeCard(characterObjectThree);
     game.updateCharacterFourCard(characterObjectFour);
 
+    $('.game-button').attr('disabled', true);
     //on click listeners
+
+    $('#start-button').on('click', function () {
+        $('.game-button').attr('disabled', false);
+    });
+    $('#attack-button').on('click', function () {
+        game.battleEvent();
+    });
+
     $('#character-one-button').on('click', function () {
         if (game.isActive === false) {
             game.selectUserCharacter(characterObjectOne);
+            $('#opponent-one').hide();
         } else if (game.isActive === true) {
             game.selectOpponent(characterObjectOne);
+            $('#opponent-one').hide();
         };
 
     });
@@ -124,8 +150,10 @@ $(document).ready(function () {
         if (game.isActive === false) {
             game.isActive = true;
             game.selectUserCharacter(characterObjectTwo);
+            $('#opponent-two').hide();
         } else if (game.isActive === true) {
             game.selectOpponent(characterObjectTwo);
+            $('#opponent-two').hide();
         };
 
     });
@@ -133,9 +161,10 @@ $(document).ready(function () {
         if (game.isActive === false) {
             game.isActive = true;
             game.selectUserCharacter(characterObjectThree);
-
+            $('#opponent-three').hide();
         } else if (game.isActive === true) {
             game.selectOpponent(characterObjectThree);
+            $('#opponent-three').hide();
         };
 
     });
@@ -143,12 +172,12 @@ $(document).ready(function () {
         if (game.isActive === false) {
             game.isActive = true;
             game.selectUserCharacter(characterObjectFour);
+            $('#opponent-four').hide();
         } else if (game.isActive === true) {
             game.selectOpponent(characterObjectFour);
+            $('#opponent-four').hide();
         };
-
     });
-
 });
 
 

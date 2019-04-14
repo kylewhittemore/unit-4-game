@@ -18,8 +18,8 @@
         <p class="lead">Simple battle game, level up and defeat your opponents before losing all of your HP!</p>
         <hr class="my-4">
         <p>Click below to start a new game.</p>
-        <button type="button" class="btn btn-primary btn-lg ">Start</button>
-        <button type="button" class="btn btn-danger btn-lg ">Attack!</button>
+        <button type="button" id="start-button" class="btn btn-primary btn-lg ">Start</button>
+        <button type="button" id="attack-button" class="btn game-button btn-danger btn-lg ">Attack!</button>
     </div>
     <div class="container">
 
@@ -31,7 +31,7 @@
                     <h5 id="opponent-one-name" class="card-title">Player Name</h5>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p id="opponent-one-HP" class="card-text">HP</p>
-                    <button type="button" id="character-one-button" class="btn btn-success m-1">Character One</button>
+                    <button type="button" id="character-one-button" class="btn game-button character-button btn-success m-1">Character One</button>
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                     <h5 id="opponent-two-name" class="card-title">Player Name</h5>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <h6 id="opponent-two-HP" class="card-text">HP</h6>
-                    <button type="button" id="character-two-button" class="btn btn-success m-1">Character Two</button>
+                    <button type="button" id="character-two-button" class="btn game-button character-button btn-success m-1">Character Two</button>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                     <h5 id="opponent-three-name" class="card-title">Player Name</h5>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p id="opponent-three-HP"class="card-text">HP</p>
-                    <button type="button" id="character-three-button" class="btn btn-success m-1">Character Three</button>
+                    <button type="button" id="character-three-button" class="btn game-button character-button btn-success m-1">Character Three</button>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                     <h5 id="opponent-four-name" class="card-title">Player Name</h5>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p id="opponent-four-HP"class="card-text">HP</p>
-                    <button type="button" id="character-four-button" class="btn btn-success m-1">Character Three</button>
+                    <button type="button" id="character-four-button" class="btn game-button character-button btn-success m-1">Character Three</button>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
                 <div class="card-body">
                         <img id="battle-user-image" src=""/>
                     <h5 id="battle-user-name" class="card-title">Player Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <h6 id="battle-user-attack" class="card-subtitle mb-2 text-muted"></h6>
                     <p id="battle-user-HP" class="card-text">HP</p>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 <div class="card-body">
                         <img id="battle-opponent-image" src=""/>
                     <h5 id="battle-opponent-name" class="card-title">Player Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <h6 id="battle-opponent-counter" class="card-subtitle mb-2 text-muted"></h6>
                     <p id="battle-opponent-HP" class="card-text">HP</p>
                 </div>
             </div>
