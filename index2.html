@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <h1 class="display-4">RPG Game</h1>
+        <p class="lead">Simple battle game, level up and defeat your opponents before losing all of your HP!</p>
+        <hr class="my-4">
+        <p>Click below to start a new game.</p>
+        <button type="button" class="btn btn-primary btn-lg ">Start</button>
+        <button type="button" class="btn btn-danger btn-lg ">Attack!</button>
+    </div>
+    <div class="container">
+
+        <div class="row">
+
+            <div id="opponent-one" class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                    <img id="opponent-one-image" src=""/>
+                    <h5 id="opponent-one-name" class="card-title">Player Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p id="opponent-one-HP" class="card-text">HP</p>
+                    <button type="button" id="character-one-button" class="btn btn-success m-1">Character One</button>
+                </div>
+            </div>
+
+            <div id="opponent-two" class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                        <img id="opponent-two-image" src=""/>
+                    <h5 id="opponent-two-name" class="card-title">Player Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p id="opponent-two-HP" class="card-text">HP</p>
+                    <button type="button" id="character-two-button" class="btn btn-success m-1">Character Two</button>
+                </div>
+            </div>
+
+            <div id="opponent-three" class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                        <img id="opponent-three-image" src=""/>
+                    <h5 id="opponent-three-name" class="card-title">Player Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p id="opponent-three-HP"class="card-text">HP</p>
+                    <button type="button" id="character-three-button" class="btn btn-success m-1">Character Three</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div id="battle-card-user" class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                        <img id="battle-user-image" src=""/>
+                    <h5 id="battle-user-name" class="card-title">Player Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p id="battle-user-HP" class="card-text">HP</p>
+                </div>
+            </div>
+            <div id="battle-card-opponent" class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                        <img id="battle-opponent-image" src=""/>
+                    <h5 id="battle-opponent-name" class="card-title">Player Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p id="battle-opponent-HP" class="card-text">HP</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/javascript/game2.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
