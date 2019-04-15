@@ -1,4 +1,4 @@
-let characterArray = [['homer', 'not here', 100, 24, 10, 10], ['marge', 'there', 200, 23, 9, 9], ['lisa', 'school', 300, 22, 8, 8], ['bart', 'factory', 400, 21, 7, 7]]
+characterArray = [['homer', 'not here', 100, 24, 10, 10], ['marge', 'there', 200, 23, 9, 9], ['lisa', 'school', 300, 22, 8, 8], ['bart', 'factory', 400, 21, 7, 7], ['milhouse', 'playground', 500, 20, 6, 6], ['ralph', 'class', 600, 19, 5, 5], ['nelson', 'whatever', 700, 18, 4, 4], ['principle skinner', 'office', 800, 17, 3, 3], ['martin', 'broom closet', 900, 16, 2, 2]]
 
 class Character {
     constructor(character) { //is passed a character array
@@ -8,39 +8,44 @@ class Character {
         this.counterPower = character[3];
         this.currentAttackPower = character[4];
         this.baseAttackPower = character[5];
-        this.cardPosition; //
     }
 };
 
 const game = {
     isActive: false,
     userCharacter: {},
-    randomThreeOpponents: [],
     activeOpponent: false,
+    opponentsLeft: 3,
+    characterObjectOne: {},
+    characterObjectTwo: {},
+    characterObjectThree: {},
+    characterObjectFour: {},
+    needsReset: false,
+    characterArray: [['homer', 'not here', 100, 24, 10, 10], ['marge', 'there', 200, 23, 9, 9], ['lisa', 'school', 300, 22, 8, 8], ['bart', 'factory', 400, 21, 7, 7], ['milhouse', 'playground', 500, 20, 6, 6], ['ralph', 'class', 600, 19, 5, 5], ['nelson', 'whatever', 700, 18, 4, 4], ['principle skinner', 'office', 800, 17, 3, 3], ['martin', 'broom closet', 900, 16, 2, 2]],
 
-    // I think that handlebars could be useful here
-    //having a seperate function for each card seems redundant
-    //the issue is im not sure how to generate the proper unique id for each card
-    //come back to this on refactor
     updateCharacterOneCard: function (characterObject) {
+        $('#opponent-one').show();
         // $('#opponent-one-image').attr('src', characterObject.image);
         $('#opponent-one-name').text(characterObject.name);
         $('#opponent-one-HP').text(characterObject.healthPoints);
         $('#character-one-button').text(characterObject.name);
     },
     updateCharacterTwoCard: function (characterObject) {
+        $('#opponent-two').show();
         // $('#opponent-two-image').attr('src', characterObject.image);
         $('#opponent-two-name').text(characterObject.name);
         $('#opponent-two-HP').text(characterObject.healthPoints);
         $('#character-two-button').text(characterObject.name);
     },
     updateCharacterThreeCard: function (characterObject) {
+        $('#opponent-three').show();
         // $('#opponent-three-image').attr('src', characterObject.image);
         $('#opponent-three-name').text(characterObject.name);
         $('#opponent-three-HP').text(characterObject.healthPoints);
         $('#character-three-button').text(characterObject.name);
     },
     updateCharacterFourCard: function (characterObject) {
+        $('#opponent-four').show();
         // $('#opponent-four-image').attr('src', characterObject.image);
         $('#opponent-four-name').text(characterObject.name);
         $('#opponent-four-HP').text(characterObject.healthPoints);
@@ -60,37 +65,59 @@ const game = {
     },
 
     selectUserCharacter: function (characterObject) {
-        //disable buttons except characters
-        //jumbotron prompts to select character
-        //button chooses character
-        //create a userCard object with the character object selected 
-        //move card to the battle Area
+        $('.start-button').attr('disabled', true);
         this.userCharacter = characterObject;
         game.isActive = true;
         console.table(game.userCharacter);
         this.updateBattleUserCard(this.userCharacter);
     },
 
-    generateOpponents: function () {
-        //the three opponents are selected from the characterArray
-        //create three opponentCards
-        //after selection the opponents are displayed
-        //display characters stats on the battle cards
+    generateCharactersAvailable: function () {
+        let randNumArray = [];
+        for (i = 0; i < 4; i++) {
+            let randNum = Math.floor(Math.random() * this.characterArray.length);
+            while (randNumArray.includes(randNum)) {
+                randNum = Math.floor(Math.random() * this.characterArray.length);
+                console.log('randnum until valid', randNum);
+            };
+            randNumArray.push(randNum);
+            console.table(this.characterArray[randNum])
+        };
+
+        this.characterObjectOne = new Character(this.characterArray[randNumArray[0]]);
+        this.characterObjectTwo = new Character(this.characterArray[randNumArray[1]]);
+        this.characterObjectThree = new Character(this.characterArray[randNumArray[2]]);
+        this.characterObjectFour = new Character(this.characterArray[randNumArray[3]]);
+
+        this.updateCharacterOneCard(this.characterObjectOne);
+        this.updateCharacterTwoCard(this.characterObjectTwo);
+        this.updateCharacterThreeCard(this.characterObjectThree);
+        this.updateCharacterFourCard(this.characterObjectFour);
     },
 
     battleEvent: function () {
-
-        //update the text in the battle cards
         this.activeOpponent.healthPoints -= this.userCharacter.currentAttackPower;
         //check for defeat here :)
         this.userCharacter.healthPoints -= this.activeOpponent.counterPower;
         if (this.userCharacter.healthPoints <= 0) {
-            
+            this.activeOpponent = false;
+            this.isActive = false;
+            $('.game-button').attr('disabled', true);
+            $('#start-button').attr('disabled', false);
             //put loss logic here
             alert('you lose');
+            this.resetBoard();
+           
         } else if (this.activeOpponent.healthPoints <= 0) {
-            
+            this.opponentsLeft--;
+            this.activeOpponent = false;
+            $('.game-button').attr('disabled', true);
+            $('#start-button').attr('disabled', false);
             //put win logic here
+            if (game.opponentsLeft === 0) {
+                this.resetBoard();
+                this.isActive = false;
+            }
             alert('you won');
         } else {
             this.userCharacter.currentAttackPower += this.userCharacter.baseAttackPower;
@@ -99,82 +126,98 @@ const game = {
         }
     },
 
-    removeCharacter: function () {
-        //move characterCard to the defeated area
-        //set this.activeOpponent to {}
-        //set this.gameActive to false
-    },
-
     selectOpponent: function (characterObject) {
         if (this.activeOpponent === false) {
             this.activeOpponent = characterObject;
-            console.table(this.activeOpponent);
+           
             this.updateBattleOpponentCard(this.activeOpponent);
             $('.character-button').attr('disabled', true);
-
+            $('#attack-button').attr('disabled', false);
         }
+    },
+
+    resetBoard: function () {
+        isActive: false,
+        this.userCharacter = {};
+        this.activeOpponent = false;
+        this.opponentsLeft = 3;
+        this.generateCharactersAvailable();
+        $('#battle-user-name').text('');
+        $('#battle-user-HP').text('');
+        $('#battle-user-attack').text('');
+        $('#battle-opponent-name').text('');
+        $('#battle-opponent-HP').text('');
+        $('#battle-opponent-counter').text('')
+
     }
+
 };
 
 $(document).ready(function () {
-    let characterObjectOne = new Character(characterArray[0]);
-    let characterObjectTwo = new Character(characterArray[1]);
-    let characterObjectThree = new Character(characterArray[2]);
-    let characterObjectFour = new Character(characterArray[3]);
-    game.updateCharacterOneCard(characterObjectOne);
-    game.updateCharacterTwoCard(characterObjectTwo);
-    game.updateCharacterThreeCard(characterObjectThree);
-    game.updateCharacterFourCard(characterObjectFour);
 
+    game.generateCharactersAvailable(game.characterArray);
+
+    // game.updateCharacterOneCard(game.generateEmptyObject());
+
+    //set the screen so that the user has to press start to begin the game
     $('.game-button').attr('disabled', true);
-    //on click listeners
 
+    //on click listeners
     $('#start-button').on('click', function () {
+        
         $('.game-button').attr('disabled', false);
+        $('#attack-button').attr('disabled', true);
+        $(this).attr('disabled', true);
     });
     $('#attack-button').on('click', function () {
         game.battleEvent();
     });
 
     $('#character-one-button').on('click', function () {
-        if (game.isActive === false) {
-            game.selectUserCharacter(characterObjectOne);
+        debugger;
+        if (!game.isActive) {
+            game.selectUserCharacter(game.characterObjectOne);
             $('#opponent-one').hide();
-        } else if (game.isActive === true) {
-            game.selectOpponent(characterObjectOne);
+        } else if (game.isActive) {
+            game.selectOpponent(game.characterObjectOne);
             $('#opponent-one').hide();
         };
 
     });
+
     $('#character-two-button').on('click', function () {
-        if (game.isActive === false) {
+        debugger;
+        if (!game.isActive) {
             game.isActive = true;
-            game.selectUserCharacter(characterObjectTwo);
+            game.selectUserCharacter(game.characterObjectTwo);
             $('#opponent-two').hide();
-        } else if (game.isActive === true) {
-            game.selectOpponent(characterObjectTwo);
+        } else if (game.isActive) {
+            game.selectOpponent(game.characterObjectTwo);
             $('#opponent-two').hide();
         };
 
     });
+
     $('#character-three-button').on('click', function () {
-        if (game.isActive === false) {
+        debugger;
+        if (!game.isActive) {
             game.isActive = true;
-            game.selectUserCharacter(characterObjectThree);
+            game.selectUserCharacter(game.characterObjectThree);
             $('#opponent-three').hide();
-        } else if (game.isActive === true) {
-            game.selectOpponent(characterObjectThree);
+        } else if (game.isActive) {
+            game.selectOpponent(game.characterObjectThree);
             $('#opponent-three').hide();
         };
-
     });
+
     $('#character-four-button').on('click', function () {
-        if (game.isActive === false) {
+        debugger;
+        if (!game.isActive) {
             game.isActive = true;
-            game.selectUserCharacter(characterObjectFour);
+            game.selectUserCharacter(game.characterObjectFour);
             $('#opponent-four').hide();
-        } else if (game.isActive === true) {
-            game.selectOpponent(characterObjectFour);
+        } else if (game.isActive) {
+            game.selectOpponent(game.characterObjectFour);
             $('#opponent-four').hide();
         };
     });
