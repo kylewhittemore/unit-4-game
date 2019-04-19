@@ -12,8 +12,9 @@ class Character {
 
 const game = {
     players: [],
+    defeatedOpponents: [],
     availableCharacters: [],
-    characterArray: [['homer', 'not here', 100, 24, 10, 10], ['marge', 'there', 200, 23, 9, 9], ['lisa', 'school', 300, 22, 8, 8], ['bart', 'factory', 400, 21, 7, 7], ['milhouse', 'playground', 500, 20, 6, 6], ['ralph', 'class', 600, 19, 5, 5], ['nelson', 'whatever', 700, 18, 4, 4], ['principle skinner', 'office', 800, 17, 3, 3], ['martin', 'broom closet', 900, 16, 2, 2]],
+    characterArray: [['homer', '', 100, 24, 10, 10], ['marge', 'there', 200, 23, 9, 9], ['lisa', 'school', 300, 22, 8, 8], ['bart', 'factory', 400, 21, 7, 7], ['milhouse', 'playground', 500, 20, 6, 6], ['ralph', 'class', 600, 19, 5, 5], ['nelson', 'whatever', 700, 18, 4, 4], ['principle skinner', 'office', 800, 17, 3, 3], ['martin', 'broom closet', 900, 16, 2, 2]],
 
     generateCharactersAvailable: function () {
         let randNumArray = [];
@@ -33,20 +34,38 @@ const game = {
         let templateString =
             `<div id="card-` + characterObject.index + `" class="card m-2" style="width: 18rem;">
             <div class="card-body">
-                <img class=" img-thumbnail" src="" />
+                <img class=" img-thumbnail" src="./assets/images/SImpsons Sprites/apu_punch.png" />
                 <h5 class="card-title">` + characterObject.name + `</h5>
-                <h6 class="card-subtitle mb-2 text-muted">` + characterObject.currentAttackPower + `</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Current AP: ` + characterObject.currentAttackPower + `</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Counter: ` + characterObject.counterPower + `</h6>
                 <p class="card-text">` + characterObject.healthPoints + `</p>
             </div>
         </div>`;
         return templateString;
     },
 
+    renderDefeatedOpponents: function () {
+        $('#defeated-opponents').html('');
+        this.defeatedOpponents.forEach(function (element) {
+            let templateString = game.makeTemplateString(element);
+            $('#defeated-opponents').append(templateString);
+        });
+    },
+
+
     renderCharacterSelection: function () {
         $('#available-characters').html('');
         this.availableCharacters.forEach(function (element) {
             let templateString = game.makeTemplateString(element);
             $('#available-characters').append(templateString);
+        });
+    },
+    
+    renderBattleCards: function () {
+        $('#battle-area').html('');
+        this.players.forEach(function (element) {
+            let templateString = game.makeTemplateString(element);
+            $('#battle-area').append(templateString);
         });
     },
 
@@ -66,15 +85,7 @@ const game = {
         $('#card-3').on('click', function () {
             let index = 3;
             game.cardClickEvent(index);
-        });
-    },
-
-    renderBattleCards: function () {
-        $('#battle-area').html('');
-        this.players.forEach(function (element) {
-            let templateString = game.makeTemplateString(element);
-            $('#battle-area').append(templateString);
-        })
+        });    
     },
 
     initializeGame: function () {
@@ -105,22 +116,24 @@ const game = {
     },
 
     battleEvent: function () {
-        this.players[1].healthPoints -= this.players[0].currentAttackPower;
-        this.players[0].healthPoints -= this.players[1].counterPower;
-        if (this.players[0].healthPoints <= 0) {
+        let user = this.players[0];
+        let comp = this.players[1];
+        
+        user.healthPoints -= comp.counterPower;
+        comp.healthPoints -= user.currentAttackPower;
+        
+        if (user.healthPoints <= 0) {
             alert('you lose');
             this.initializeGame();
-        } else if (this.players[1].healthPoints <= 0 && this.players.length > 1) {
-            this.players.pop();
-            this.renderBattleCards();
-            alert('you win');
-        } else if (this.players[1].healthPoints <= 0 && this.players.length === 1) {
-            //win game overall.
-            
+        } else if (comp.healthPoints <= 0) {
+            alert('you win')
+            comp.healthPoints = 0;
+            this.defeatedOpponents.push(this.players.pop());
+            this.renderDefeatedOpponents();
         } else {
-            this.players[0].currentAttackPower += this.players[0].baseAttackPower;
-            this.renderBattleCards();
+            user.currentAttackPower += user.baseAttackPower;
         }
+        this.renderBattleCards();
     },
 };
 
@@ -129,4 +142,3 @@ game.initializeGame();
 $('#attack-button').on('click', function() {
     game.battleEvent();
 })
-
