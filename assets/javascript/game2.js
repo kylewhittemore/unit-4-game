@@ -1,5 +1,3 @@
-characterArray = [['homer', 'not here', 100, 24, 10, 10], ['marge', 'there', 200, 23, 9, 9], ['lisa', 'school', 300, 22, 8, 8], ['bart', 'factory', 400, 21, 7, 7], ['milhouse', 'playground', 500, 20, 6, 6], ['ralph', 'class', 600, 19, 5, 5], ['nelson', 'whatever', 700, 18, 4, 4], ['principle skinner', 'office', 800, 17, 3, 3], ['martin', 'broom closet', 900, 16, 2, 2]]
-
 class Character {
     constructor(character) { //is passed a character array
         this.name = character[0];
@@ -78,10 +76,10 @@ const game = {
             let randNum = Math.floor(Math.random() * this.characterArray.length);
             while (randNumArray.includes(randNum)) {
                 randNum = Math.floor(Math.random() * this.characterArray.length);
-                console.log('randnum until valid', randNum);
+                // console.log('randnum until valid', randNum);
             };
             randNumArray.push(randNum);
-            console.table(this.characterArray[randNum])
+            // console.table(this.characterArray[randNum])
         };
 
         this.characterObjectOne = new Character(this.characterArray[randNumArray[0]]);
@@ -157,7 +155,7 @@ $(document).ready(function () {
 
     game.generateCharactersAvailable(game.characterArray);
 
-    // game.updateCharacterOneCard(game.generateEmptyObject());
+   
 
     //set the screen so that the user has to press start to begin the game
     $('.game-button').attr('disabled', true);
@@ -172,6 +170,10 @@ $(document).ready(function () {
     $('#attack-button').on('click', function () {
         game.battleEvent();
     });
+
+    $('#opponent-one').on('click', function() {
+        alert('click event');
+    })
 
     $('#character-one-button').on('click', function () {
         debugger;
