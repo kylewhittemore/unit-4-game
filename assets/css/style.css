@@ -6,21 +6,21 @@ body {
 
 .tv-container {
     margin: 0 auto;
-    background-image: url("../images/simpsons_tv.png");
+    background-image: url("../images/simpsons_tv_scaled.png");
     background-repeat: no-repeat;
-    height: 661px;
-    width: 990px;
+    height: 550px;
+    width: 825px;
     position: relative;
     border: 2px solid black;
 }
 
 .screen-container {
-    /* border: 2px solid black; */
-    height: 440px;
-    width: 570px;
+    border: 2px solid black;
+    height: 370px;
+    width: 477px;
     position: absolute;
-    top:109px;
-    left: 149px;
+    top:89px;
+    left: 121px;
 }
 
 .screen-container {
@@ -32,10 +32,12 @@ body {
 .flex-container {
     display: flex;
     /* flex-wrap: wrap; */
+    margin: 4px 0;
 }
 
 #screen-text {
-    margin: 50px auto;
+    margin: 20px auto;
+    text-align: center;
 }
 .flex-child {
     width: 50%;
@@ -46,12 +48,13 @@ body {
 
 #attack-button {
     background-color: #FADF59;
+    margin: 10px auto;
     padding: 10px 10px 10px 14px;
     border: 2px solid black;
 }
 
 #stats-display {
-    margin-top: 20px;
+    margin: 10px;
     display: flex;
     justify-content: space-between;
     width: 90%;
@@ -67,8 +70,8 @@ body {
     /* border: 1px solid black; */
 }
 
-p.card-text {
-    margin: 2px 0;
+p {
+    font-size: 10px;
 }
 
 .card-image {
