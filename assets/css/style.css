@@ -15,7 +15,7 @@ body {
 }
 
 .screen-container {
-    border: 2px solid black;
+    /* border: 2px solid black; */
     height: 370px;
     width: 477px;
     position: absolute;
