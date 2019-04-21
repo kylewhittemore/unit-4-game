@@ -1,118 +1,140 @@
-let characterArray = [['homer', 'not here', 100, 24, 10, 10], ['marge', 'there', 200, 23, 9, 9], ['lisa', 'school', 300, 22, 8, 8], ['bart', 400, 21, 7, 7]]
-
 class Character {
-    constructor(character) {
+    constructor(character) { //is passed a character array
         this.name = character[0];
         this.image = character[1];
         this.healthPoints = character[2];
-        this.position = '';
-        this.isValidChoice = true;
-        this.isStyled = false;
-    }
-};
-
-class User extends Character {
-    constructor(character) {
-        super(character);
+        this.counterPower = character[3];
         this.currentAttackPower = character[4];
         this.baseAttackPower = character[5];
-    }
-    attackEvent = function () {
-        //attacks opponent reducing opponent hp
-        //raises users hp by baseAttackPower
-        //puts counter-attack on user
-        
-    }
-};
-
-class Opponent extends Character {
-    constructor(character) {
-        super(character);
-        this.counterPower = character[3];
+        this.index;
     }
 };
 
 const game = {
-        playerUser: {},
-        playersComputer: [],
-        currentOpponent: {},
+    players: [],
+    defeatedOpponents: [],
+    availableCharacters: [],
+    characterArray: [['Moe', 'assets/images/moe_gun.png', 100, 24, 10, 10], ['marge', 'assets/images/marge_fireball.png', 200, 23, 9, 9], ['Apu', 'assets/images/apu_punch.png', 300, 22, 8, 8], ['bart', 'assets/images/bart_slingshot.png', 400, 21, 7, 7], ['Sideshow Bob', 'assets/images/bob_zombie.png', 500, 20, 6, 6], ['Ned Flanders', 'assets/images/flanders_bible.png', 600, 19, 5, 5], ['Grandpa', 'assets/images/grandpa_gun.png', 700, 18, 4, 4], ['Maggie', 'assets/images/maggie_push.png', 800, 17, 3, 3]],
 
-    startGame: function () {
-        this.playerUser = {};
-        this.playersComputer = [];
-        this.currentOpponent = {};
-        this.toggleButtons(true);
-        this.playerUser = this.selectAvatar();
-        this.playersComputer = this.generateOpponents();
-        this.toggleButtons(true);
+    generateCharactersAvailable() {
+        let randNumArray = [];
+        for (i = 0; i < 4; i++) {
+            let randNum = Math.floor(Math.random() * this.characterArray.length);
+            while (randNumArray.includes(randNum)) {
+                randNum = Math.floor(Math.random() * this.characterArray.length);
+            };
+            randNumArray.push(randNum);
+            let newCharacter = new Character(this.characterArray[randNum]);
+            newCharacter.index = i;
+            this.availableCharacters.push(newCharacter);
+        };
     },
 
-    generateOpponents: function () {
-        // for loop to push 3 characters[random]
-        
-        let opponentsArray = [ characterArray[0], characterArray[1], characterArray[2], characterArray[3]];
-        $('#opponent-one').text(opponentsArray[0][0]);
-        $('#opponent-two').text(opponentsArray[1][0]);
-        $('#opponent-three').text(opponentsArray[2][0]);
-        $('#opponent-four').text(opponentsArray[3][0]);
-        return opponentsArray;
-    },
-    selectAvatar: function () {
-        this.toggleButtons()
-        return characterArray[0];
-    },
-    selectOpponent: function (value) {
+    makeTemplateString(characterObject) {
+        let templateString =
 
+            `<div id="card-` + characterObject.index + `" class="card">
+                <img class="card-image" src="` + characterObject.image + `" />
+                <p class="card-text">` + characterObject.name + `</p>
+            </div>`
+
+        return templateString;
     },
 
-    toggleButtons: function (value) {
-        if (value === true) {
-            $('.action-button').prop('disabled', true);
-            $('.opponent-button').prop('disabled', false);
-        } else if (value === false) {
-            $('.action-button').prop('disabled', false);
-            $('.opponent-button').prop('disabled', true);
+    makeStatsTemplateString(characterObject) {
+        let templateString =
+            `<div>
+                <h6>Health Points: ` + characterObject.healthPoints + `</h6>
+                <h6>Attack Power: ` + characterObject.currentAttackPower + `</h6>
+                <h6>Counter Power: ` + characterObject.counterPower + `</h6>
+            </div>`;
+        return templateString;
+    },
+
+    renderDefeatedOpponents() {
+        $('#defeated-opponents').empty();
+        this.defeatedOpponents.forEach((element) => $('#defeated-opponents').append(game.makeTemplateString(element)));
+    },
+
+    renderCharacterSelection() {
+        $('#available-characters').empty();
+        this.availableCharacters.forEach((element) => $('#available-characters').append(game.makeTemplateString(element)));
+    },
+
+    renderBattleCards() {
+        $('#battle-area').empty();
+        this.players.forEach((element) => $('#battle-area').append(game.makeTemplateString(element)));
+    },
+
+    renderBattleStats() {
+        // debugger;
+        $('#stats-display').empty();
+        this.players.forEach((element) => $('#stats-display').append(game.makeStatsTemplateString(element)));
+    },
+
+    addClickEvents() {
+        $('#card-0').on('click', () => game.cardClickEvent(0));
+        $('#card-1').on('click', () => game.cardClickEvent(1));
+        $('#card-2').on('click', () => game.cardClickEvent(2));
+        $('#card-3').on('click', () => game.cardClickEvent(3));
+        $('#attack-button').on('click', () => game.battleEvent())
+    },
+
+    initializeGame() {
+        this.players = [];
+        this.opponentsLeft = 3;
+        this.availableCharacters = [];
+        $('#available-characters').empty();
+        $('#battle-area').empty();
+        $('#defeated-opponents').empty();
+        this.generateCharactersAvailable();
+        this.renderCharacterSelection();
+        this.addClickEvents();
+        $('#attack-button').hide();
+    },
+
+    cardClickEvent(inputIndex) {
+        if (this.players.length <= 1) {
+            console.log(this.players);
+            this.players.push(this.availableCharacters[inputIndex]);
+            this.availableCharacters.splice(inputIndex, 1);
+            for (i = 0; i < this.availableCharacters.length; i++) {
+                if (this.availableCharacters[i].index > inputIndex) {
+                    this.availableCharacters[i].index = this.availableCharacters[i].index - 1;
+                }
+            }
         }
+
+        this.renderBattleStats();
+        this.renderCharacterSelection();
+        this.renderBattleCards();
+        this.addClickEvents();
+        $('#attack-button').show();
     },
 
-    updateBoard: function () {
+    battleEvent() {
+        let user = this.players[0];
+        let comp = this.players[1];
 
+        user.healthPoints -= comp.counterPower;
+        comp.healthPoints -= user.currentAttackPower;
+
+        if (user.healthPoints <= 0) {
+            alert('you lose');
+            this.initializeGame();
+        } else if (comp.healthPoints <= 0) {
+            alert('you win')
+            comp.healthPoints = 0;
+            this.defeatedOpponents.push(this.players.pop());
+            this.renderDefeatedOpponents();
+        } else {
+            user.currentAttackPower += user.baseAttackPower;
+        }
+        this.renderBattleCards();
+        this.renderBattleStats();
     },
-    endGame: function (result) {
-    }
 };
 
-// let newGame = new Game();
-// newGame.toggleButtons(false);
-$('#start-button').on('click', function () {
-    console.log('start!');
-    game.startGame();
-});
+game.initializeGame();
 
-$('#attack-button').on('click', function () {
-    console.log('attack event!');
-});
-
-$('#opponent-one').on('click', function () {
-    if (game.playerUser) {
-    }
-    game.currentOpponent = game.playersComputer[0];
-    console.table(game.currentOpponent);
-    game.toggleButtons(false);
-});
-
-$('#opponent-two').on('click', function () {
-    game.currentOpponent = game.playersComputer[1];
-    console.table(game.currentOpponent);
-    game.toggleButtons(false);
-});
-
-$('#opponent-three').on('click', function () {
-    game.currentOpponent = game.playersComputer[2];
-    console.table(game.currentOpponent);
-    game.toggleButtons(false);
-});
-
-
-
-
+// $('#attack-button').on('click', () => game.battleEvent())

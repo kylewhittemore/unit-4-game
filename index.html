@@ -1,39 +1,54 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
-    <style>
-        /* .button-disable {
-            
-        }
 
-        .button-enable {
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
 
-        } */
-    </style>
+<body>
+    <div class="flex-container">
 
-    </head>
-    <body>
-        <h1>Simpsons RPG</h1>
-        <div class="opponents-group">
-            <button id="opponent-one" class="opponent-button"></button>
-            <button id="opponent-two" class="opponent-button"></button>
-            <button id="opponent-three" class="opponent-button"></button>
-            <button id="opponent-four" class="opponent-button"></button>
+        <div class="flex-child">
+            <h5>Available Characters</h5>
+            <div id="available-characters" class="flex-container">
 
-        </div>
-        <div>
-            <button id="start-button" class="action-button">Start!</button>
-            <button id="attack-button" class="action-button">Attack!</button>
-            <button id="quit-button"class="action-button">Quit!</button>
+            </div>
         </div>
 
-        <script src="./assets/javascript/game.js" async defer></script>
-    </body>
+        <div class="flex-child">
+            <h5>defeated Opponents</h5>
+            <div id="defeated-opponents" class="flex-container">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="tv-container">
+        <div class="screen-container">
+            <h2 id="screen-text">Battle Area!</h2>
+            <div id="battle-area" class="flex-container">
+
+            </div>
+            <div id="stats-display">
+                
+            </div>
+            <div id="attack-button">Attack!</div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+
+    <script src="./assets/javascript/game.js" async defer></script>
+</body>
+
 </html>
