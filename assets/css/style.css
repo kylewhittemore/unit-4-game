@@ -1,0 +1,82 @@
+body {
+     font-family: 'Press Start 2P', cursive;
+      background-color: #4767e6;
+      box-sizing: border-box;
+}
+
+.tv-container {
+    margin: 0 auto;
+    background-image: url("../images/simpsons_tv.png");
+    background-repeat: no-repeat;
+    height: 661px;
+    width: 990px;
+    position: relative;
+    border: 2px solid black;
+}
+
+.screen-container {
+    /* border: 2px solid black; */
+    height: 440px;
+    width: 570px;
+    position: absolute;
+    top:109px;
+    left: 149px;
+}
+
+.screen-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.flex-container {
+    display: flex;
+    /* flex-wrap: wrap; */
+}
+
+#screen-text {
+    margin: 50px auto;
+}
+.flex-child {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+#attack-button {
+    background-color: #FADF59;
+    padding: 10px 10px 10px 14px;
+    border: 2px solid black;
+}
+
+#stats-display {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+#battle-area {
+    justify-content: space-between;
+    width: 70%;
+}
+
+.card {
+    width: 100px;
+    /* border: 1px solid black; */
+}
+
+p.card-text {
+    margin: 2px 0;
+}
+
+.card-image {
+    height: 100px;
+    width: 100px;
+}
+
+.card-text {
+    font-size: 10px;
+    text-align: center;
+}
