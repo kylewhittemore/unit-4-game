@@ -1,6 +1,6 @@
-# unit-4-game
+### unit-4-game
+### jQuery Assignment
 The Simpsons themed RPG game
-# jQuery Assignment
 
 ### Overview
 This is a very simple RPG-styled game.  The user selects a character to play as, then selects an opponent from a pool of 3 opponents.  If they are victorious, the opponent is banished to the defeated area, and the user selects a new opponent.  If all the opponents are defeated, the user wins.
