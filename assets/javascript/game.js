@@ -13,7 +13,6 @@ class Character {
 const game = {
     players: [],
     defeatedOpponents: [],
-    
     availableCharacters: [],
     characterArray: [['Moe', 'assets/images/moe_gun.png', 100, 24, 10, 10], ['marge', 'assets/images/marge_fireball.png', 200, 23, 9, 9], ['Apu', 'assets/images/apu_punch.png', 300, 22, 8, 8], ['bart', 'assets/images/bart_slingshot.png', 400, 21, 7, 7], ['Sideshow Bob', 'assets/images/bob_zombie.png', 500, 20, 6, 6], ['Ned Flanders', 'assets/images/flanders_bible.png', 600, 19, 5, 5], ['Grandpa', 'assets/images/grandpa_gun.png', 700, 18, 4, 4], ['Maggie', 'assets/images/maggie_push.png', 800, 17, 3, 3]],
 
@@ -114,10 +113,8 @@ const game = {
     },
 
     battleEvent() {
-        
         let user = this.players[0];
         let comp = this.players[1];
-
         user.healthPoints -= comp.counterPower;
         comp.healthPoints -= user.currentAttackPower;
 
@@ -135,6 +132,7 @@ const game = {
         } else {
             user.currentAttackPower += user.baseAttackPower;
         }
+        
         this.renderDefeatedOpponents();
         this.renderBattleCards();
         this.renderBattleStats();
