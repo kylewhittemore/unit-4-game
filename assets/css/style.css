@@ -69,7 +69,11 @@ body {
     width: 100px;
     /* border: 1px solid black; */
 }
-
+#attack-button:hover {
+    /* background-color: transparent;
+    color: white; */
+    transform: scale(1.1)
+}
 p {
     font-size: 10px;
 }

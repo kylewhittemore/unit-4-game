@@ -14,7 +14,7 @@ const game = {
     players: [],
     defeatedOpponents: [],
     availableCharacters: [],
-    characterArray: [['Moe', 'assets/images/moe_gun.png', 100, 24, 10, 10], ['marge', 'assets/images/marge_fireball.png', 200, 23, 9, 9], ['Apu', 'assets/images/apu_punch.png', 300, 22, 8, 8], ['bart', 'assets/images/bart_slingshot.png', 400, 21, 7, 7], ['Sideshow Bob', 'assets/images/bob_zombie.png', 500, 20, 6, 6], ['Ned Flanders', 'assets/images/flanders_bible.png', 600, 19, 5, 5], ['Grandpa', 'assets/images/grandpa_gun.png', 700, 18, 4, 4], ['Maggie', 'assets/images/maggie_push.png', 800, 17, 3, 3]],
+    characterArray: [['Moe', 'assets/images/moe_gun.png', 100, 8, 10, 10], ['Marge', 'assets/images/marge_fireball.png', 110, 10, 9, 9], ['Apu', 'assets/images/apu_punch.png', 110, 12, 8, 8], ['Bart', 'assets/images/bart_slingshot.png', 120, 3, 7, 7], ['Bob', 'assets/images/bob_zombie.png', 120, 5, 6, 6], ['Flanders', 'assets/images/flanders_bible.png', 110, 12, 4, 4], ['Grandpa', 'assets/images/grandpa_gun.png', 100, 10, 4, 4], ['Maggie', 'assets/images/maggie_push.png', 100, 10, 5, 5]],
 
     // This is so there are four unique, randomly selected characters available for each game. They are pushed to the availableCharacters arrray to begin their flow through the game.
     generateCharactersAvailable() {
@@ -37,20 +37,14 @@ const game = {
             `<div id="card-` + characterObject.index + `" class="card">
                 <img class="card-image" src="` + characterObject.image + `" />
                 <p class="card-text">` + characterObject.name + `</p>
+                <p class="card-text">HP: ` + characterObject.healthPoints + `</p>
+                <p class="card-text">AP: ` + characterObject.currentAttackPower + `</p>
+                <p class="card-text">CP: ` + characterObject.counterPower + `</p>
             </div>`
         return templateString;
     },
-    makeStatsTemplateString(characterObject) {
-        let templateString =
-            `<div>
-                <p>Health Points: ` + characterObject.healthPoints + `</p>
-                <p>Attack Power: ` + characterObject.currentAttackPower + `</p>
-                <p>Counter Power: ` + characterObject.counterPower + `</p>
-            </div>`;
-        return templateString;
-    },
 
-    // There are four '.render....' methods, one for each major screen area.  Since all of the information for each element to be rendered is stored in arrays, these methods can simply be called to update the screen areas to reflect the contents of each array. 
+    // There are three '.render....' methods, one for each major screen area.  Since all of the information for each element to be rendered is stored in arrays, these methods can simply be called to update the screen areas to reflect the contents of each array. 
     renderDefeatedOpponents() {
         $('#defeated-opponents').empty();
         this.defeatedOpponents.forEach((element) => $('#defeated-opponents').append(game.makeTemplateString(element)));
@@ -64,11 +58,6 @@ const game = {
     renderBattleCards() {
         $('#battle-area').empty();
         this.players.forEach((element) => $('#battle-area').append(game.makeTemplateString(element)));
-    },
-
-    renderBattleStats() {
-        $('#stats-display').empty();
-        this.players.forEach((element) => $('#stats-display').append(game.makeStatsTemplateString(element)));
     },
 
     // since the html of each display is emptied every render, there is also a method to re-apply the click listeners to each character.
@@ -109,7 +98,6 @@ const game = {
             $('#screen-text').text('Battle!');
         };
         if (this.players.length > 1) {$('#attack-button').show()};
-        this.renderBattleStats();
         this.renderCharacterSelection();
         this.renderBattleCards();
         this.addClickEvents();
@@ -131,6 +119,7 @@ const game = {
             this.initializeGame();
         } else if (comp.healthPoints <= 0) {
             $('#screen-text').text('Victory! Choose Your Next Opponent:');
+            this.players[1].healthPoints = 0;
             this.defeatedOpponents.push(this.players.pop());
         } else {
             user.currentAttackPower += user.baseAttackPower;
@@ -138,7 +127,6 @@ const game = {
         
         this.renderDefeatedOpponents();
         this.renderBattleCards();
-        this.renderBattleStats();
     },
 };
 
